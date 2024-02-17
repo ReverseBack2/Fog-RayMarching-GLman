@@ -26,22 +26,10 @@ main( )
 	// change vertex position and normal vectors based on wave equation
 
 	vST = gl_MultiTexCoord0.st;
-
-	float r = pow(gl_Vertex.x*gl_Vertex.x + gl_Vertex.y*gl_Vertex.y, 1./2.);
-	float z = uA * cos(2.*3.14*uB*r+uC) * exp( -uD * r);
 	vec4 vertex = gl_Vertex;
-	vertex.z += z;
 
-	float drdx = vertex.x/r;
-	float drdy = vertex.y/r;
-	float dzdr = uA * ( -sin(2.*3.14*uB*r+uC) * 2.*3.14*uB * exp(-uD*r) + cos(2.*3.14*uB*r+uC) * -uD * exp(-uD*r) );
-
-	float dzdx = dzdr * drdx;
-	float dzdy = dzdr * drdy;
-
-
-	vec3 Tx = vec3(1., 0., dzdx );
-	vec3 Ty = vec3(0., 1., dzdy ); 
+	float r = length(vertex.xyz);
+	
 
 	vN = gl_Normal;  // normal vector
 

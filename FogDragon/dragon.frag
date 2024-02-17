@@ -10,8 +10,10 @@ uniform vec4    uLightColor;		 // object color
 uniform vec4    uSpecularColor;	 // light color
 uniform float   uShininess = 10;	 // specular exponent
 
+
 uniform sampler3D 	Noise3;
 uniform float 		uNoiseFreq, uNoiseAmp;
+uniform float 		Timer;
 
 
 // in variables from the vertex shader and interpolated in the rasterizer:
