@@ -69,7 +69,7 @@ main( )
 
 	// apply the per-fragmewnt lighting to myColor:
 
-	vec3 Normal = normalize(1 * fN);
+	vec3 Normal = normalize(fN);
 	vec3 Light  = normalize(vL);
 	vec3 Eye    = normalize(vE);
 

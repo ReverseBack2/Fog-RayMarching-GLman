@@ -6,6 +6,9 @@
 uniform float uA, uB, uC, uD; // amplitude, frequency, Phase shift, decay rate
 uniform float uLightX, uLightY, uLightZ;
 
+uniform float camAngX, camAngY; 	// range : -2 -> 2, and -0.5 -> 0.5
+uniform float dragScale;			// range : 0.5 -> 1 -> 5
+
 
 
 // out variables to be interpolated in the rasterizer and sent to each fragment shader:
@@ -26,9 +29,28 @@ main( )
 	// change vertex position and normal vectors based on wave equation
 
 	vST = gl_MultiTexCoord0.st;
-	vec4 vertex = gl_Vertex;
 
-	float r = length(vertex.xyz);
+	// Dragon Rotaion
+
+	vec4 vertex = vec4(gl_Vertex.xyz * dragScale, gl_Vertex.w);
+
+	float phi = 3.14*camAngX;
+	float theta = 3.14*camAngY;
+
+	float z = vertex.z;
+	float x = vertex.x;
+
+	vertex.z = z*cos(phi) - x*sin(phi);
+	vertex.x = z*sin(phi) + x*cos(phi);
+
+	float y = vertex.y;
+	z = vertex.z;
+
+	vertex.y = y*cos(theta) - z*sin(theta);
+	vertex.z = y*sin(theta) + z*cos(theta);
+
+
+
 	
 
 	vN = gl_Normal;  // normal vector

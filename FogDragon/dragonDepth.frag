@@ -49,7 +49,7 @@ RotateNormal( float angx, float angy, vec3 n )
 void
 main( )
 {
-	float depth = .075 * length(vE);
+	float depth = 0.01 * length(vE);
 	gl_FragColor = vec4( depth, depth, depth,  1. );
 }
 
