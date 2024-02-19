@@ -22,8 +22,8 @@ main() {
 	vec4 modelColor = texture( uTexUnitB, vST);
 	vec4 fog = texture( uTexUnitC, vST);
 
-	fog.a = fog.b;
-	fog.b = fog.r;
+	fog.a = fog.g;
+	fog.g = fog.r;
 
 
 

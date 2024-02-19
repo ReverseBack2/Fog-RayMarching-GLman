@@ -1,3 +1,3 @@
 
-0(47) : error C1503: undefined variable "depthTest"
+0(90) : error C1503: undefined variable "fogColor"
 

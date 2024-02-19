@@ -54,7 +54,7 @@ main( )
 
 	
 
-	vN = gl_Normal;  // normal vector
+	vN = gl_NormalMatrix * gl_Normal;  // normal vector
 
 
 	vec4 ECposition = gl_ModelViewMatrix * vertex;
