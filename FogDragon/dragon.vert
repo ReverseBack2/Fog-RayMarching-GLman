@@ -9,6 +9,7 @@ uniform float uLightX, uLightY, uLightZ;
 uniform float camAngX, camAngY; 	// range : -2 -> 2, and -0.5 -> 0.5
 uniform float dragScale;			// range : 0.5 -> 1 -> 5
 
+uniform float Timer;
 
 
 // out variables to be interpolated in the rasterizer and sent to each fragment shader:
@@ -34,7 +35,7 @@ main( )
 
 	vec4 vertex = vec4(gl_Vertex.xyz * dragScale, gl_Vertex.w);
 
-	float phi = 3.14*camAngX;
+	float phi = 3.14*(camAngX+ 2.*Timer);
 	float theta = 3.14*camAngY;
 
 	float z = vertex.z;

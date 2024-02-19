@@ -53,15 +53,7 @@ main( )
 {
 	vec3 vMC = vMCposition;
 
-	vec4 nvx = texture( Noise3, uNoiseFreq*vMC );
-	float angx = nvx.r + nvx.g + nvx.b + nvx.a  -  2.;	// -1. to +1.
-	angx *= uNoiseAmp;
-
-    vec4 nvy = texture( Noise3, uNoiseFreq*vec3(vMC.xy,vMC.z+0.5) );
-	float angy = nvy.r + nvy.g + nvy.b + nvy.a  -  2.;	// -1. to +1.
-	angy *= uNoiseAmp;
-
-	vec3 fN = RotateNormal( angx, angy, vN );
+	
 
 	vec3 myColor = uColor.rgb;
 	vec3 lightColor = uLightColor.rgb;
@@ -69,7 +61,7 @@ main( )
 
 	// apply the per-fragmewnt lighting to myColor:
 
-	vec3 Normal = normalize(fN);
+	vec3 Normal = normalize(vN);
 	vec3 Light  = normalize(vL);
 	vec3 Eye    = normalize(vE);
 

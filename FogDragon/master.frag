@@ -12,11 +12,18 @@ uniform bool uDisplayLighting;
 uniform bool uDisplayDepth;
 uniform bool uDisplayFog;
 
+vec4 alphaMix( vec4 front, vec4 back ) {
+	return mix( vec4(front.rgb, 1.0), back, 1.0-front.w);
+}
+
 void
 main() {
 	vec4 depth = texture( uTexUnitA, vST);
 	vec4 modelColor = texture( uTexUnitB, vST);
 	vec4 fog = texture( uTexUnitC, vST);
+
+	fog.a = fog.b;
+	fog.b = fog.r;
 
 
 
@@ -32,5 +39,6 @@ main() {
 		gl_FragColor = fog;
 	}else{
 		gl_FragColor = vec4(sqrt(abs(depth.rgb-fog.rgb)), 1.0);
+		gl_FragColor = alphaMix(fog, modelColor);
 	}
 }

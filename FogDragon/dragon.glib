@@ -19,6 +19,7 @@ LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 Vertex          dragonDepth.vert
 Fragment        dragonDepth.frag
 Program    DragonDepth                               \
+                uA <0. 0.01 0.1>                    \
                 camAngX <-2. 0.122 2.>             \
                 camAngY <-0.5 0.079 0.5>           \
                 dragScale <0.1 1.06 5.>           \
@@ -76,6 +77,7 @@ Translate 0. 1. 0.
 ####################################################
 # Dragon Fog
 ####################################################
+# store alpha in blue channel because renders opaque imagr
 
 Texture2D 8 1024 1024               # a 1024x1024 NULL texture
 RenderToTexture 8
@@ -89,6 +91,12 @@ LookAt 0 0 3  0 0 0  0 1 0
 Vertex          fog.vert
 Fragment        fog.frag
 Program    Dragon3                              \
+        uTimerScale <0. 9. 10.>                 \
+        uFogCIntensity <0. 1. 10.0>              \
+        uFogAIntensity <0. 7.75 20.0>              \
+        uFogFreq <0. 0.3 1.>                    \
+        uFogginess <0. 8.2 15.>                  \
+        UseFog2 <false>
                 
 
 

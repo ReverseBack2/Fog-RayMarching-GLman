@@ -1,4 +1,3 @@
 
-ERROR: 0:32: 'modelColor' : undeclared identifier 
-
+0(47) : error C1503: undefined variable "depthTest"
 
