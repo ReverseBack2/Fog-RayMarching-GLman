@@ -41,20 +41,26 @@ main() {
 
 	vec4 fog = vec4(0.);
 	vec3 fogColor = vec3(0.5, 0.5, 0.5);
+
+	//normal ray out from camera
+	vec3 pos = normalize(vec3(vST, 1.732));
+
+
 	float t = 0.;
 	float step = 0.05;
+
 	while ( t <= depth.x ) {
 		if (t == 0.){
-			fog = alphaMix ( vec4( fogColor * uFogCIntensity, (mod(depth.x, step) - step) * uFogAIntensity * fogGet(vec3( vST, t ) ) ), fog );
+			fog = alphaMix ( vec4( fogColor * uFogCIntensity, ( (mod(depth.x, step) / step) ) * uFogAIntensity * fogGet(pos*t) ), fog );
 		}else{
-			fog = alphaMix ( vec4( fogColor * uFogCIntensity, uFogAIntensity * fogGet(vec3( vST, t ) ) ), fog );
+			fog = alphaMix ( vec4( fogColor * uFogCIntensity, uFogAIntensity * fogGet(pos*t) ), fog );
 		}
 		t = t + step;
 	}
 
 	vec4 fog2 = vec4(0.);
 	for ( int i = 0; i < 10; i++ ) {
-		fog2 = alphaMix ( vec4( fogColor * uFogCIntensity, uFogAIntensity * fogGet(vec3( vST, i ) ) ), fog2 );
+		fog2 = alphaMix ( vec4( fogColor * uFogCIntensity, uFogAIntensity * fogGet(pos*t) ), fog2 );
 	}
 	// fog2.a = fog2.a*depth.x;
 	fog2.a = fog2.a-(0.25/depth.x);
@@ -75,6 +81,6 @@ main() {
 	}
 
 	if(depth.x >= 5.)
-		gl_FragColor = vec4(fogColor.xy, 1.0, 1.0);
+		gl_FragColor = vec4(fogColor.xy * uFogCIntensity, 1.0, 1.0);
 	
 }

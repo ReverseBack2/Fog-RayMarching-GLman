@@ -38,7 +38,6 @@ main() {
 	}else if(uDisplayFog) {
 		gl_FragColor = fog;
 	}else{
-		gl_FragColor = vec4(sqrt(abs(depth.rgb-fog.rgb)), 1.0);
 		gl_FragColor = alphaMix(fog, modelColor);
 	}
 }

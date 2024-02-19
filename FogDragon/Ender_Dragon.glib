@@ -26,12 +26,12 @@ Program    DragonDepth                               \
                          
                 
 
-Translate 0. -1. 0.
-Scale 0.05
-Obj dragon010.obj
-Scale 20.
+Translate 0. 0. 0.
+Scale 0.01
+Obj ender_dragon.obj
+Scale 100.
 Sphere 20.
-Translate 0. 1. 0.
+Translate 0. 0. 0.
 
 
 
@@ -65,11 +65,11 @@ Program    DragonLighting                              \
                 uLightColor {1. 0.25 0.25}      \
                 uSpecularColor {1. 1. 1. 1.}
 
-Translate 0. -1. 0.
-Scale 0.05
-Obj dragon010.obj
-Scale 20.
-Translate 0. 1. 0.
+Translate 0. 0. 0.
+Scale 0.01
+Obj ender_dragon.obj
+Scale 100.
+Translate 0. 0. 0.
 
 
 
