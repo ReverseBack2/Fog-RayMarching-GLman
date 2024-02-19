@@ -1,7 +1,11 @@
 ##OpenGL GLIB
 Perspective 60
 
+
+
+####################################################
 # Dragon Depth
+####################################################
 # Outputs Depth as 100x less to not get clamped by render
 
 Texture2D 6 1024 1024               # a 1024x1024 NULL texture
@@ -28,7 +32,12 @@ Scale 20.
 Sphere 20.
 Translate 0. 1. 0.
 
+
+
+
+####################################################
 # Dragon Lighting
+####################################################
 
 Texture2D 7 1024 1024               # a 1024x1024 NULL texture
 RenderToTexture 7
@@ -63,7 +72,10 @@ Translate 0. 1. 0.
 
 
 
+
+####################################################
 # Dragon Fog
+####################################################
 
 Texture2D 8 1024 1024               # a 1024x1024 NULL texture
 RenderToTexture 8
@@ -71,7 +83,8 @@ RenderToTexture 8
 Background 0. 0. 0.
 Clear
 
-LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
+Perspective 60
+LookAt 0 0 3  0 0 0  0 1 0
 
 Vertex          fog.vert
 Fragment        fog.frag
@@ -79,9 +92,15 @@ Program    Dragon3                              \
                 
 
 
-QuadXY  .2 2.
+QuadXY  0.  1.732 65 65
 
+
+
+
+####################################################
 #Merge Photos
+####################################################
+
 
 RenderToTexture
 Background 0. 0. 2.
@@ -104,4 +123,4 @@ Program     Master              \
     uDisplayFog <false>         \
 
 
-QuadXY  .2 2.
+QuadXY  .0  1.732
