@@ -1,6 +1,4 @@
 ##OpenGL GLIB
-Perspective 60
-
 
 
 ####################################################
@@ -14,6 +12,7 @@ RenderToTexture 6                   # render to texture unit 6
 Background 0. 0. 0.
 Clear
 
+Perspective 60
 LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 
 Vertex          dragonDepth.vert
@@ -46,6 +45,7 @@ RenderToTexture 7
 Background 0. 0. 0.
 Clear
 
+Perspective 60
 LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 
 Vertex          dragon.vert
@@ -108,7 +108,7 @@ QuadXY  0.  1.732 65 65
 
 
 ####################################################
-#Merge Photos
+#Master Render (Merge Photos)
 ####################################################
 
 
@@ -116,8 +116,8 @@ RenderToTexture
 Background 0. 0. 2.
 Clear
 
-Perspective 60
 
+Perspective 60
 LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 
 
