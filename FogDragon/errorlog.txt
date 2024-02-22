@@ -1,3 +1,4 @@
 
-0(90) : error C1503: undefined variable "fogColor"
+ERROR: 0:71: 'LightPosition' : undeclared identifier 
+
 

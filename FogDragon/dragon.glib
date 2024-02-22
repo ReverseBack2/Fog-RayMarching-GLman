@@ -18,6 +18,8 @@ LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 Vertex          dragonDepth.vert
 Fragment        dragonDepth.frag
 Program    DragonDepth                               \
+                uWingScale <0. .015 .5>           \
+                uWingFreq <0 4 10>              \
                 uA <0. 0.01 0.1>                    \
                 camAngX <-2. 0.122 2.>             \
                 camAngY <-0.5 0.079 0.5>           \
@@ -51,6 +53,8 @@ LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 Vertex          dragon.vert
 Fragment        dragon.frag
 Program    DragonLighting                              \
+                uWingScale <0. .015 .5>           \
+                uWingFreq <0 4 10>              \
                 camAngX <-2. 0.122 2.>             \
                 camAngY <-0.5 0.079 0.5>           \
                 dragScale <0.1 1.06 5.>           \
@@ -93,11 +97,12 @@ Fragment        fog.frag
 Program    DragonFog                              \
         uA <-5. 0. 5.>                          \
         uB <-5. 0. 5.>                          \
-        uTimerScale <0. 9. 10.>                 \
+        uTimerScale <0. 0. 10.>                 \
         uFogCIntensity <0. 1. 10.0>              \
         uFogAIntensity <0. 7.75 20.0>              \
         uFogFreq <0. 0.3 1.>                    \
         uFogginess <0. 8.2 15.>                  \
+        uFogClip <0. 0.005 .02>                   \
         UseFog2 <false>
                 
 

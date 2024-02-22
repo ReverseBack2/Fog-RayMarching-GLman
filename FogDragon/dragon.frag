@@ -23,6 +23,7 @@ in  vec3  vL;		   // vector from point to light
 in  vec3  vE;		   // vector from point to eye
 in  vec2  vST;		   // (s,t) texture coordinates
 in 	vec3  vMCposition;   // (x, y, z) global position
+in vec4 vColor;
 
 vec3
 RotateNormal( float angx, float angy, vec3 n )
