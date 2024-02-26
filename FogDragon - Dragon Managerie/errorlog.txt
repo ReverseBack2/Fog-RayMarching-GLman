@@ -1,0 +1,4 @@
+
+ERROR: 0:71: 'LightPosition' : undeclared identifier 
+
+

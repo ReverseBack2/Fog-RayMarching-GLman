@@ -18,7 +18,7 @@ LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 Vertex          dragonDepth.vert
 Fragment        dragonDepth.frag
 Program    DragonDepth                               \
-                uWingScale <0. .0045 .5>           \
+                uWingScale <0. .015 .5>           \
                 uWingFreq <0 4 10>              \
                 uA <0. 0.01 0.1>                    \
                 camAngX <-2. 0.122 2.>             \
@@ -27,12 +27,12 @@ Program    DragonDepth                               \
                          
                 
 
-Translate 0. 0. 0.
-Scale 0.01
-Obj ender_dragon.obj
-Scale 100.
+Translate 0. -1. 0.
+Scale 0.05
+Obj dragon010.obj
+Scale 20.
 Sphere 20.
-Translate 0. 0. 0.
+Translate 0. 1. 0.
 
 
 
@@ -53,7 +53,7 @@ LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
 Vertex          dragon.vert
 Fragment        dragon.frag
 Program    DragonLighting                              \
-                uWingScale <0. .0045 .5>           \
+                uWingScale <0. .015 .5>           \
                 uWingFreq <0 4 10>              \
                 camAngX <-2. 0.122 2.>             \
                 camAngY <-0.5 0.079 0.5>           \
@@ -69,12 +69,11 @@ Program    DragonLighting                              \
                 uLightColor {1. 0.25 0.25}      \
                 uSpecularColor {1. 1. 1. 1.}
 
-Translate 0. 0. 0.
-Scale 0.01
-Obj ender_dragon.obj
-Scale 100.
-Sphere 20.
-Translate 0. 0. 0.
+Translate 0. -1. 0.
+Scale 0.05
+Obj dragon010.obj
+Scale 20.
+Translate 0. 1. 0.
 
 
 
