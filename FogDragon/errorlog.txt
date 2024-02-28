@@ -1,4 +1,4 @@
 
-ERROR: 0:71: 'LightPosition' : undeclared identifier 
+ERROR: 0:23: '[]' : integer expression required 
 
 

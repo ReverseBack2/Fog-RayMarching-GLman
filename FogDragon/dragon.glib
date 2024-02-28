@@ -34,6 +34,29 @@ Scale 20.
 Sphere 20.
 Translate 0. 1. 0.
 
+####################################################
+# Dragon Depth Processing
+####################################################
+# Outputs Depth as 100x less to not get clamped by render
+
+Texture2D 9 1024 1024               # a 1024x1024 NULL texture
+RenderToTexture 9                   # render to texture unit 6
+
+Background 0. 0. 0.
+Clear
+
+Perspective 60
+LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
+
+
+Vertex      master.vert
+Fragment    DDProcessing.frag
+Program     DepthProcessing              \
+    uTexUnitA 6                 \
+
+
+
+QuadXY  .0  1.732
 
 
 
@@ -75,6 +98,30 @@ Obj dragon010.obj
 Scale 20.
 Translate 0. 1. 0.
 
+####################################################
+# Dragon Lighting Processing
+####################################################
+# store alpha in green channel because renders opaque imagr
+
+Texture2D 10 1024 1024               # a 1024x1024 NULL texture
+RenderToTexture 10
+
+Background 0. 0. 0.
+Clear
+
+
+Perspective 60
+LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
+
+
+Vertex      master.vert
+Fragment    DLProcessing.frag
+Program     LightingProcessing              \
+    uTexUnitA 7                 \
+
+
+QuadXY  .0  1.732
+
 
 
 
@@ -103,11 +150,46 @@ Program    DragonFog                              \
         uFogFreq <0. 0.3 1.>                    \
         uFogginess <0. 8.2 15.>                  \
         uFogClip <0. 0.005 .02>                   \
+        coX <-2. 0. 2.>                         \
+        coY <-2. 0. 2.>                         \
+        coZ <-2. 0. 2.>                         \
+        testX <false>                           \
+        testY <false>                           \
+        testZ <false>                           \
         UseFog2 <false>
                 
 
 
 QuadXY  0.  1.732 65 65
+
+
+####################################################
+# Dragon Fog Processing
+####################################################
+# store alpha in green channel because renders opaque imagr
+
+Texture2D 11 1024 1024               # a 1024x1024 NULL texture
+RenderToTexture 11
+
+Background 0. 0. 0.
+Clear
+
+
+Perspective 60
+LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
+
+
+Vertex      master.vert
+Fragment    DFProcessing.frag
+Program     FogProcessing      \
+    uTexUnitA 8                 \
+    blur <false>                \
+    step <0. 0.01 0.1>          \ 
+
+
+
+QuadXY  .0  1.732
+
 
 
 
@@ -132,10 +214,17 @@ Program     Master              \
     uTexUnitA 6                 \
     uTexUnitB 7                 \
     uTexUnitC 8                 \
-    uA <0. 1. 20.>               \
+    uTexUnitA2 9                \
+    uTexUnitB2 10               \
+    uTexUnitC2 11               \
+    uA <0. 1. 20.>              \
+    fogProcessing < -2. 0. 3.>  \
     uDisplayLighting <false>    \
     uDisplayDepth <false>       \
     uDisplayFog <false>         \
+    uDisplayLighting2 <false>    \
+    uDisplayDepth2 <false>       \
+    uDisplayFog2 <false>         \
 
 
 QuadXY  .0  1.732

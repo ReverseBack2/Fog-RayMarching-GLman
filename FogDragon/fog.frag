@@ -13,6 +13,9 @@ uniform float uFogClip;
 uniform float uA;
 uniform float uB;
 
+uniform float coX, coY, coZ;
+uniform bool testX, testY, testZ;
+
 uniform vec3 fogColor = vec3 (0.5, 0.5, 0.5);
 
 uniform bool UseFog2;
@@ -68,6 +71,15 @@ float fogGet( vec3 pos ) {
 	n = n/pow(2., uFogginess-1.);				// 0. -> 1.0
 	// n = n + 0.5;							// 0.25 => 0.75
 
+	if((pos.x > 0.25 || pos.x < -0.25) && testX)
+		return 0.;
+
+	if((pos.y > 0.25 || pos.y < -0.25) && testY)
+		return 0.;
+
+	if((pos.z > 0.25 || pos.z < -0.25) && testZ)
+		return 0.;
+
 	if (n < uFogClip)
 		return 0.;
 
@@ -77,7 +89,7 @@ float fogGet( vec3 pos ) {
 vec3 getFogColor( vec3 pos) {
 	vec3 fColor = fogColor;
 
-	pos.x = pos.x - uA;
+	// pos.x = pos.x - uA;
 
 	float s = sqrt(pos.z*pos.z + pos.x*pos.x);
 
@@ -97,6 +109,7 @@ main() {
 
 	vec4 fog = vec4(0.);
 	vec3 camPos = vec3( 0., 0., -3.);
+	camPos = camPos + vec3( coX, coY, coZ );
 
 	// Scene Rotation angles
 	float phi = 3.14*((0.122)+ 2.*Timer); 	// Cam Angle X
@@ -105,7 +118,8 @@ main() {
 
 	//normal ray out from camera
 	vec3 pos = normalize(vec3(vST, 1.732));
-	pos = invRotate3D( pos, phi, uA*theta );
+	// vec3 pos = normalize(vec3(vST, 1.));
+	pos = invRotate3D( pos, phi, theta );
 	camPos = rotate3D ( camPos, phi, theta );
 
 
