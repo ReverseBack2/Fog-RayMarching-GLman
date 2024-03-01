@@ -104,7 +104,7 @@ main() {
 	
 
 	//normal ray out from camera
-	vec3 pos = normalize(vec3(vST, 1.732));
+	vec3 pos = normalize(vec3(fCoord, 1.732));
 	pos = invRotate3D( pos, phi, uA*theta );
 	camPos = rotate3D ( camPos, phi, theta );
 

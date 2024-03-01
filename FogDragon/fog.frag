@@ -117,7 +117,7 @@ main() {
 	
 
 	//normal ray out from camera
-	vec3 pos = normalize(vec3(vST, 1.732));
+	vec3 pos = normalize(vec3(fCoord, 1.732));
 	// vec3 pos = normalize(vec3(vST, 1.));
 	pos = invRotate3D( pos, phi, theta );
 	camPos = rotate3D ( camPos, phi, theta );
@@ -159,5 +159,6 @@ main() {
 
 	// if(depth.x >= 5.)
 	// 	gl_FragColor = vec4(fogColor.xy * uFogCIntensity, 1.0, 1.0);
+
 	
 }
