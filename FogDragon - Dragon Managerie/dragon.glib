@@ -4,7 +4,7 @@
 ####################################################
 # Dragon Depth
 ####################################################
-# Outputs Depth as 100x less to not get clamped by render
+# Outputs Depth as 5x less to not get clamped by render
 
 Texture2D 6 1024 1024               # a 1024x1024 NULL texture
 RenderToTexture 6                   # render to texture unit 6

@@ -127,7 +127,7 @@ main() {
 	float step = 0.05;
 
 	while ( t <= depth.x ) {
-		if (t == 0.){
+		if (t + step > depth.x){
 			fog = alphaMix ( vec4( getFogColor(t*pos) * uFogCIntensity, ( (mod(depth.x, step) / step) ) * uFogAIntensity * fogGet(camPos + pos*t) ), fog );
 		}else{
 			fog = alphaMix ( vec4( getFogColor(t*pos) * uFogCIntensity, uFogAIntensity * fogGet(camPos + pos*t) ), fog );

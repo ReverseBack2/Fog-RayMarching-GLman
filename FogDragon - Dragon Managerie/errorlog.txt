@@ -1,4 +1,3 @@
 
-ERROR: 0:71: 'LightPosition' : undeclared identifier 
-
+0(73) : error C0000: syntax error, unexpected ']', expecting reserved word or reserved word "precise" at token "]"
 

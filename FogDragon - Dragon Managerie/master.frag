@@ -22,13 +22,9 @@ main() {
 	vec4 modelColor = texture( uTexUnitB, vST);
 	vec4 fog = texture( uTexUnitC, vST);
 
+	// Restoring Fog Texture
 	fog.a = fog.g;
 	fog.g = fog.r;
-
-
-
-	vec4 final = modelColor + depth/uA; 
-	// gl_FragColor = modelColor + depth*(depth+uA);
 
 
 	if (uDisplayLighting) {

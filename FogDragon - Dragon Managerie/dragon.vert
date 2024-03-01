@@ -55,6 +55,8 @@ main( )
 
 	vec4 vertex = vec4(gl_Vertex.xyz * dragScale, gl_Vertex.w);
 
+	// Wing Flap
+
 	vertex.y = vertex.y + vertex.x*vertex.x*time*uWingScale;
 	
 	// Dragon Rotaion
