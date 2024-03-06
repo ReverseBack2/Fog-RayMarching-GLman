@@ -35,6 +35,6 @@ main() {
 
 	gl_FragColor = image;
 	if(blur)
-		gl_FragColor = samples;
+		gl_FragColor.rb = samples.rb;
 
 }
