@@ -5,9 +5,11 @@
 #include <fstream>
 #include <bits/stdc++.h>
 
-
-
 using namespace std;
+
+struct point {
+	float *loc;
+};
 
 void printCoord(float x, float y, float z, float CS, ofstream &oF);
 float genFloat( float max );
@@ -16,21 +18,18 @@ float genFloat( float max );
 int main() {
 	srand(time(0)*394852.);
 
-	float cubeSize = 1.;
+	float cubeSize = 4.;
 
-	float Xstart = -4.;
-	float Xend = 4.;
+	float Xstart = 0.;
+	float Xend = 64.;
 
-	float Ystart = -4.;
-	float Yend = 4.;
+	float Ystart = 0.;
+	float Yend = 64.;
 
-	float Zstart = -4.;
-	float Zend = 4.;
+	float Zstart = 0.;
+	float Zend = 64.;
 
-	for (int i = 0; i < 10; ++i)
-	{
-		cout << rand()%100 << "\n";
-	}
+	
 
 	ofstream oF;
 	oF.open ("cloudPoints.txt", ios::trunc);
@@ -58,6 +57,14 @@ int main() {
 	}else{
 		cout << "Error opening file\n";
 	}
+
+	oF.close();
+	cout << "finsihed writing points\n";
+
+	
+
+
+
 
 
 
