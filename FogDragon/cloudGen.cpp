@@ -11,7 +11,7 @@ struct point {
 	float *loc;
 };
 
-void printCoord(float x, float y, float z, float CS, ofstream &oF);
+void printCoord( float x, float y, float z, float CS, ofstream &oF );
 float genFloat( float max );
 
 
@@ -37,21 +37,41 @@ int main() {
 	if (oF.is_open()) {
 		cout << "File opened\n";
 
-		oF << "{\n";
+		FILE *fp = fopen( "example.tex", "wb" );
 
-		for (float i = Xstart; i < Xend; i+=cubeSize)
+		int nums = 1024;
+		int numt = 1193046;
+	
+		fwrite( &nums, 4, 1, fp );
+		fwrite( &numt, 4, 1, fp );
+		for( int t = 0; t < numt; t++ )
 		{
-			for (float j = Ystart; j < Yend; j+=cubeSize)
+			for( int s = 0; s < nums; s++ )
 			{
-				for (float k = Zstart; k < Zend; k+=cubeSize)
-				{
-					printCoord( i, j, k, cubeSize, oF);
-					cout << i << " " << j << " " << k << "\n";
-				}
+			// float red, green, blue, alpha;
+			
+			// fwrite( &red, 4, 1, fp );
+			// fwrite( &green, 4, 1, fp );
+			// fwrite( &blue, 4, 1, fp );
+			// fwrite( &alpha, 4, 1, fp );
 			}
 		}
 
-		oF << "}";
+		// oF << "{\n";
+
+		// for (float i = Xstart; i < Xend; i+=cubeSize)
+		// {
+		// 	for (float j = Ystart; j < Yend; j+=cubeSize)
+		// 	{
+		// 		for (float k = Zstart; k < Zend; k+=cubeSize)
+		// 		{
+		// 			printCoord( i, j, k, cubeSize, oF);
+		// 			cout << i << " " << j << " " << k << "\n";
+		// 		}
+		// 	}
+		// }
+
+		// oF << "}";
 		
 
 	}else{
@@ -60,13 +80,6 @@ int main() {
 
 	oF.close();
 	cout << "finsihed writing points\n";
-
-	
-
-
-
-
-
 
 }
 

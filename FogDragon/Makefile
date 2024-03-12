@@ -1,7 +1,10 @@
-all: cloudGen opml
+all: cloudGen opml noiseGen
 
-cloudGen:
-	g++ -std=c++11 ./cloudgen.cpp -o cloudGen
+cloudGen: cloudGen.cpp
+	g++ -std=c++11 cloudGen.cpp -o cloudGen
 
-opml:
-	g++ -lm -fopenmp ./opml.cpp -o opml
+opml: opml.cpp
+	g++ -lm -fopenmp opml.cpp -o opml
+
+noiseGen: noiseGen.cu
+	nvcc noiseGen.cu -o noiseGen
