@@ -66,7 +66,7 @@ __global__ void calcNoise( DistanceField DF, NoiseField* NF );
 int main() {
 	cout << "starting\n";
 
-	int resolution = 512;
+	int resolution = 256;
 	DistanceField* DF;
 	NoiseField* NF;
 
@@ -95,7 +95,7 @@ int main() {
 	PointField PF;
 	genPoints( PF );
 
-	cout << PF.field[3][13][9].loc[2] << "\n";
+	// cout << PF.field[3][13][9].loc[2] << "\n";
 
 
 	//GPU code
@@ -105,31 +105,130 @@ int main() {
 
 	DF->field[32][32][64] = 15;
 
-	for (int i = 0; i < 32; ++i)
-	{
-		// cout << DF->field[32][32][64+i] << "\n";
-	}
+	// for (int i = 0; i < 32; ++i)
+	// {
+	// 	cout << DF->field[32][32][64+i] << "\n";
+	// }
 
+	cout << "starting distance Calc\n";
 
 	calcDistance<<< grid, threads >>> (PF, DF); 
+	cudaDeviceSynchronize();
+
+	cout << "finsihed distance, starting noise value calc\n";
+
+	calcNoise<<< grid, threads >>> (*DF, NF);
+	cudaDeviceSynchronize();
 
 	cudaError_t errSync  = cudaGetLastError();
-cudaError_t errAsync = cudaDeviceSynchronize();
-if (errSync != cudaSuccess) 
-  printf("\nSync kernel error: %s\n", cudaGetErrorString(errSync));
-if (errAsync != cudaSuccess)
-  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	cudaError_t errAsync = cudaDeviceSynchronize();
+	if (errSync != cudaSuccess) 
+	  printf("\nSync kernel error: %s\n", cudaGetErrorString(errSync));
+	if (errAsync != cudaSuccess)
+	  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 
 	cudaDeviceSynchronize();
 
-	cout << "complete calc distance\n";
+	cout << "complete calc noise\n";
 
-	for (int i = 0; i < 32; ++i)
+	// for (int i = 0; i < 32; ++i)
+	// {
+	// 	cout << DF->field[32][32][64+i] << "\n";
+	// }
+
+	// Find Stats about distance field
+
+	float avg, max, min, count, current;
+	min = 99999999.;
+	max = -1;
+	count = 0;
+
+	for (int i = 0; i < 256; ++i)
 	{
-		cout << DF->field[32][32][64+i] << "\n";
+		for (int j = 0; j < 256; ++j)
+		{
+			for (int k = 0; k < 256; ++k)
+			{
+				current  = DF->field[i][j][k];
+
+				avg += current;
+				count++;
+
+				if(max < current)
+					max = current;
+				if(min > current)
+					min = current;
+			}
+		}
+		// cout << DF->field[32][32][64+i] << "\n";
 	}
 
+	avg = avg / count;
+	cout << "min :" << min << "\nmax :" << max << "\navg :" << avg << "\n";
 
+	// Find Stats about noise field
+
+	// float avg, max, min, count, current;
+	min = 99999999.;
+	max = -1;
+	count = 0;
+
+	for (int i = 0; i < 256; ++i)
+	{
+		for (int j = 0; j < 256; ++j)
+		{
+			for (int k = 0; k < 256; ++k)
+			{
+				current  = NF->field[i][j][k];
+
+				avg += current;
+				count++;
+
+				if(max < current)
+					max = current;
+				if(min > current)
+					min = current;
+			}
+		}
+	}
+
+	avg = avg / count;
+	cout << "min :" << min << "\nmax :" << max << "\navg :" << avg << "\n";
+
+
+	// write noise texture
+
+	FILE *fp = fopen( "noise.tex", "wb" );
+	if( fp == NULL )
+	{
+		cout << "error opening output file\n";
+	}
+
+	int nums = NF->res;
+	int numt = nums;
+	int nump = nums;
+
+	fwrite( &nums, 4, 1, fp );
+	fwrite( &numt, 4, 1, fp );
+	fwrite( &nump, 4, 1, fp );
+
+	for( int p = 0; p < nump; p++ )
+	{
+		for( int t = 0; t < numt; t++ )
+		{
+			for( int s = 0; s < nums; s++ )
+			{
+				int red, green, blue, alpha;
+
+				red = NF->field[p][t][s];
+
+				fwrite( &red, 4, 1, fp );
+				fwrite( &green, 4, 1, fp );
+				fwrite( &blue, 4, 1, fp );
+				fwrite( &alpha, 4, 1, fp );
+			}
+		}
+	}
 
 
 	//free point field
@@ -172,7 +271,7 @@ void printCoord(float x, float y, float z, float CS, PointField PF) {
 	int cy = int(y/CS);
 	int cz = int(z/CS);
 
-	cout << X << " " << Y << " " << Z << "; " << cx << " " << cy << " " << cz << ";\n";
+	//cout << X << " " << Y << " " << Z << "; " << cx << " " << cy << " " << cz << ";\n";
 
 	PF.field[cx][cy][cz].loc[0] = X;
 	PF.field[cx][cy][cz].loc[1] = Y;
@@ -336,7 +435,7 @@ __global__ void calcDistance( PointField PF, DistanceField* DF ) {
 					id.z = k + zCubeID;
 					//printf("attemptting to access: %d, %d, %d -- ", id.x, id.y, id.z);
 					getPointfromCoord( id, PF, p );
-					distance = sqrt( pow(x-p.loc[0], 2) + pow(y-p.loc[1], 2) + pow(z-p.loc[2], 2));
+					distance = pow( pow(x-p.loc[0], 2) + pow(y-p.loc[1], 2) + pow(z-p.loc[2], 2), 0.5);
 					//printf("Distance: %f\n", distance);
 					if ( distance < mindistance)
 						mindistance = distance;
@@ -353,4 +452,22 @@ __global__ void calcDistance( PointField PF, DistanceField* DF ) {
 // turn distance values into noise values
 __global__ void calcNoise( DistanceField DF, NoiseField* NF ) {
 
+	// point location
+	// DF.field[blockID][threadID][idx]
+	// X = (x coord of distance field / distance field res) * point field res * cube size
+
+	float value = 0;
+	int intValue = 0;
+
+	for (int idx = 0; idx < DF.res; ++idx)
+	{
+		value = DF.field[blockIdx.x][threadIdx.x][idx];
+
+		value = (value - 7.) / (132.-7.); 	// (~7.0->132.0) => (~0.0->1.0)
+		value = 1. - value;					// (~0.0->1.0) => (1.0->0.0)
+
+		intValue = (int)(value*255.);
+
+		NF->field[blockIdx.x][threadIdx.x][idx] = intValue;
+	}
 }
