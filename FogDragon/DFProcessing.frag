@@ -7,6 +7,14 @@ uniform sampler2D uTexUnitA;
 uniform bool blur;
 uniform float step;
 
+uniform float uRedScale;
+uniform float uGreenScale;
+uniform float uBlueScale;
+
+uniform float uRedPow;
+uniform float uGreenPow;
+uniform float uBluePow;
+
 
 uniform vec4 BLACK = vec4(0.);
 uniform float blurCoef[9] = {1., 4., 1., 4., 9., 4., 1., 4., 1.};
@@ -31,6 +39,14 @@ main() {
 	}
 
 	samples = samples/29.;
+
+	image.r = uRedScale * pow(image.r, uRedPow);
+	image.g = uGreenScale * pow(image.g, uGreenPow);
+	image.b = uBlueScale * pow(image.b, uBluePow);
+
+	samples.r = uRedScale * pow(samples.r, uRedPow);
+	samples.g = uGreenScale * pow(samples.g, uGreenPow);
+	samples.b = uBlueScale * pow(samples.b, uBluePow);
 
 
 	gl_FragColor = image;

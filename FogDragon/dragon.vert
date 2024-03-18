@@ -55,7 +55,13 @@ main( )
 
 	vec4 vertex = vec4(gl_Vertex.xyz * dragScale, gl_Vertex.w);
 
-	vertex.y = vertex.y + vertex.x*vertex.x*time*uWingScale;
+	vec4 vert = gl_ModelViewProjectionMatrix * vertex;
+
+	if ((vert.x*vert.x + vert.y*vert.y + vert.z*vert.z) < 25.){
+		vertex.y = vertex.y + vertex.x*vertex.x*time*uWingScale;
+	}
+
+	
 	
 	// Dragon Rotaion
 
@@ -78,5 +84,5 @@ main( )
 	vE = vec3( 0., 0., 0. ) - ECposition.xyz;	// vector from the point
 												// to the eye position
 	gl_Position = gl_ModelViewProjectionMatrix * vertex;
-	vMCposition = (vertex).xyz;
+	vMCposition = gl_Position.xyz;
 }

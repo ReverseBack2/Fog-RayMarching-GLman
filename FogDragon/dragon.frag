@@ -11,7 +11,7 @@ uniform vec4    uSpecularColor;	 // light color
 uniform float   uShininess = 10;	 // specular exponent
 
 
-uniform sampler3D 	Noise3;
+uniform sampler2D 	uTextUnitA;
 uniform float 		uNoiseFreq, uNoiseAmp;
 uniform float 		Timer;
 
@@ -79,5 +79,9 @@ main( )
 	}
 	vec3 specular = uKs * ss * uSpecularColor.rgb;
 	gl_FragColor = vec4( ambient + diffuse + specular,  1. );
+
+	if ((vMC.x*vMC.x + vMC.y*vMC.y + vMC.z*vMC.z) > 25.){
+		gl_FragColor = texture( uTextUnitA, vST);
+	}
 }
 

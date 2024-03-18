@@ -63,6 +63,6 @@ main() {
 	}else if(uDisplayFog2) {
 		gl_FragColor = fog2;
 	}else{
-		gl_FragColor = alphaMix(f_fog, modelColor);
+		gl_FragColor = alphaMix(f_fog, modelColor2);
 	}
 }

@@ -50,7 +50,12 @@ main( )
 
 	vec4 vertex = vec4(gl_Vertex.xyz * dragScale, gl_Vertex.w);
 
-	vertex.y = vertex.y + vertex.x*vertex.x*time*uWingScale;
+	
+	vec4 vert = gl_ModelViewProjectionMatrix * vertex;
+
+	if ((vert.x*vert.x + vert.y*vert.y + vert.z*vert.z) < 25.){
+		vertex.y = vertex.y + vertex.x*vertex.x*time*uWingScale;
+	}
 	
 	// Dragon Rotaion
 

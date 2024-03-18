@@ -19,7 +19,7 @@ in  vec3  vE;		   // vector from point to eye
 void
 main( )
 {
-	float depth = 0.2 * length(vE);
+	float depth = 0.05 * length(vE);
 	gl_FragColor = vec4( depth, depth, depth,  1. );
 }
 
