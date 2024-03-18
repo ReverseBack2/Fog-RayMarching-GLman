@@ -24,7 +24,7 @@ typedef struct {
 //3D array of int noise values
 typedef struct {
 	int res;
-	int*** field;
+	float*** field;
 } NoiseField;
 
 //coord to keep track of array indexes
@@ -75,16 +75,16 @@ int main() {
 
 	//allocate 3D field of distance and noise
 	cudaMallocManaged(&(DF->field), resolution*sizeof(float**));
-	cudaMallocManaged(&(NF->field), resolution*sizeof(int**));
+	cudaMallocManaged(&(NF->field), resolution*sizeof(float**));
 
 	for (int i = 0; i < resolution; ++i) {
 		cudaMallocManaged(&(DF->field[i]), resolution*sizeof(float*));
-		cudaMallocManaged(&(NF->field[i]), resolution*sizeof(int*));
+		cudaMallocManaged(&(NF->field[i]), resolution*sizeof(float*));
 
 		for (int j = 0; j < resolution; ++j)
 		{
 			cudaMallocManaged(&(DF->field[i][j]), resolution*sizeof(float));
-			cudaMallocManaged(&(NF->field[i][j]), resolution*sizeof(int));
+			cudaMallocManaged(&(NF->field[i][j]), resolution*sizeof(float));
 		}
 	}
 
@@ -204,23 +204,29 @@ int main() {
 		cout << "error opening output file\n";
 	}
 
-	int nums = NF->res;
-	int numt = nums;
-	int nump = nums;
+	int clipping = 32;
 
-	fwrite( &nums, 4, 1, fp );
-	fwrite( &numt, 4, 1, fp );
-	fwrite( &nump, 4, 1, fp );
+	int num = NF->res - clipping;
+	int numS = num - clipping;
 
-	for( int p = 0; p < nump; p++ )
+	
+
+	fwrite( &numS, 4, 1, fp );
+	fwrite( &numS, 4, 1, fp );
+	fwrite( &numS, 4, 1, fp );
+
+	for( int p = clipping; p < num; p++ )
 	{
-		for( int t = 0; t < numt; t++ )
+		for( int t = clipping; t < num; t++ )
 		{
-			for( int s = 0; s < nums; s++ )
+			for( int s = clipping; s < num; s++ )
 			{
-				int red, green, blue, alpha;
+				float red, green, blue, alpha;
 
 				red = NF->field[p][t][s];
+				green  = 0.5;
+				blue = 0.5;
+				alpha = 0.5;
 
 				fwrite( &red, 4, 1, fp );
 				fwrite( &green, 4, 1, fp );
@@ -435,7 +441,8 @@ __global__ void calcDistance( PointField PF, DistanceField* DF ) {
 					id.z = k + zCubeID;
 					//printf("attemptting to access: %d, %d, %d -- ", id.x, id.y, id.z);
 					getPointfromCoord( id, PF, p );
-					distance = pow( pow(x-p.loc[0], 2) + pow(y-p.loc[1], 2) + pow(z-p.loc[2], 2), 0.5);
+					// distance = pow( pow(x-p.loc[0], 2) + pow(y-p.loc[1], 2) + pow(z-p.loc[2], 2), 0.5);
+					distance = pow(x-p.loc[0], 2) + pow(y-p.loc[1], 2) + pow(z-p.loc[2], 2);
 					//printf("Distance: %f\n", distance);
 					if ( distance < mindistance)
 						mindistance = distance;
@@ -457,17 +464,17 @@ __global__ void calcNoise( DistanceField DF, NoiseField* NF ) {
 	// X = (x coord of distance field / distance field res) * point field res * cube size
 
 	float value = 0;
-	int intValue = 0;
+
+	float max = 18000;
+	float min = 64;
 
 	for (int idx = 0; idx < DF.res; ++idx)
 	{
 		value = DF.field[blockIdx.x][threadIdx.x][idx];
 
-		value = (value - 7.) / (132.-7.); 	// (~7.0->132.0) => (~0.0->1.0)
+		value = (value - min) / (max-min); 	// (~7.0->132.0) => (~0.0->1.0)
 		value = 1. - value;					// (~0.0->1.0) => (1.0->0.0)
 
-		intValue = (int)(value*255.);
-
-		NF->field[blockIdx.x][threadIdx.x][idx] = intValue;
+		NF->field[blockIdx.x][threadIdx.x][idx] = value;
 	}
 }
