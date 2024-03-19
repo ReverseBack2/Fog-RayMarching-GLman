@@ -262,8 +262,8 @@ QuadXY  .0  1.732
 #Master Render (Merge Photos)
 ####################################################
 
-
-RenderToTexture
+Texture2D 12 1024 1024               # a 1024x1024 NULL texture
+RenderToTexture 12
 Background 0. 0. 2.
 Clear
 
@@ -289,6 +289,38 @@ Program     Master              \
     uDisplayLighting2 <false>    \
     uDisplayDepth2 <false>       \
     uDisplayFog2 <false>         \
+
+
+QuadXY  .0  1.732
+
+
+####################################################
+# Dragon Fog Processing
+####################################################
+# store alpha in green channel because renders opaque imagr
+
+RenderToTexture
+
+Background 0. 0. 0.
+Clear
+
+
+Perspective 60
+LookAt 0. 0. 3. 0. 0. 0. 0. 1. 0.
+
+
+Vertex      master.vert
+Fragment    MasterProcessing.frag
+Program     MasterProcessing      \
+    uTexUnitA 12                 \
+    PixW <.001 0.001 0.06>         \
+    uRedScale <0. 1. 5.>        \
+    uRedPow <0 1. 5.>           \
+    uGreenScale <0. 1. 5.>        \
+    uGreenPow <0 1. 5.>           \
+    uBlueScale <0. 1. 5.>        \
+    uBluePow <0 1. 5.>           \ 
+
 
 
 QuadXY  .0  1.732

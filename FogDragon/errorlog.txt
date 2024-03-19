@@ -1,3 +1,3 @@
 
-0(162) : error C1115: unable to find compatible overloaded function "mod(float, <overloaded function>)"
+0(29) : error C1503: undefined variable "fST"
 
