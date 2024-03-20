@@ -93,6 +93,7 @@ float fogGet( vec3 pos ) {
 	if((pos.y > uYcut))
 		n = n - pow(uFogS*(pos.y-uYcut), uFogP);
 
+	// testing fog culling planes
 	if((pos.x > 0.25 || pos.x < -0.25) && testX)
 		return 0.;
 
@@ -102,6 +103,7 @@ float fogGet( vec3 pos ) {
 	if((pos.z > 0.25 || pos.z < -0.25) && testZ)
 		return 0.;
 
+	// fog culling
 	if (n < uFogClip)
 		return 0.;
 
@@ -117,11 +119,11 @@ float fogGet( vec3 pos ) {
 
 vec3 getFogColor( vec3 pos) {
 	vec3 fColor = fogColor;
-	float time = sin(Timer*2.*3.14);
-	time = time * time;
+	// float time = sin(Timer*2.*3.14);
+	// time = time * time;
 
 	// pos.x = pos.x - uA;
-	vec4 nv = texture( NoiseTexUnit, vec3(pos.xy, pos.z+(time*uTimerScale)) * uFogFreq );
+	// vec4 nv = texture( NoiseTexUnit, vec3(pos.xy, pos.z+(time*uTimerScale)) * uFogFreq );
 	fColor.b = smoothstep(1., 0., (0.-uFCbO-pos.y)*uFCb);
 	fColor.r = smoothstep(1., 0., (0.-uFCrO-pos.y)*uFCr);
 
@@ -132,6 +134,7 @@ vec3 getFogColor( vec3 pos) {
 
 		
 
+	
 	return fColor;
 }
 

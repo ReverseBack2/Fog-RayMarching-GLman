@@ -47,7 +47,7 @@ vec3 rotate3D( vec3 ray, float phi, float theta) {
 void
 main( )
 {
-	// change vertex position and normal vectors based on wave equation
+	// change vertex position and normal vectors based on flapping equation
 
 	vST = gl_MultiTexCoord0.st;
 

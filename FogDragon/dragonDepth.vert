@@ -1,11 +1,6 @@
 // make this 120 for the mac:
 #version 430 compatibility
 
-// Uniform varaibles for wave function
-
-
-
-
 // out variables to be interpolated in the rasterizer and sent to each fragment shader:
 
 out  vec3  vN;	  		// normal vector
@@ -42,7 +37,7 @@ vec3 rotate3D( vec3 ray, float phi, float theta) {
 void
 main( )
 {
-	// change vertex position and normal vectors based on wave equation
+	// change vertex position and normal vectors based on flapping equation
 
 	vST = gl_MultiTexCoord0.st;
 
